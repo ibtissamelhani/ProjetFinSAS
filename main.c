@@ -170,8 +170,6 @@ void supprimer(){
         }
     }
  }
-
-
 }
 
 
@@ -228,8 +226,24 @@ void rechercher(){
     break;
 
      }
+}
+void nbrTacheComp(){
+    int count1=0;
+    int count2=0;
+    for(i=0;i<n;i++){
+        if(tab[i].status==1 || tab[i].status==2) count1++;
+        if(tab[i].status==3) count2++;
+    }
+    printf("le nombre des taches    completes : %d \t", count2);
+    printf(" incomplètes : %d", count1);
 
 }
+void statistique(){
+    printf("le nombre total des tache: %d \n\n", n);
+    nbrTacheComp();
+}
+
+
 
 
 
@@ -273,6 +287,9 @@ case 5:
     break;
 case 6:
     rechercher();
+case 7:
+    statistique();
+    break;
 default:
     printf("ce choix n'existe pas entrer un nombre entre 1 et 7");
     break;
