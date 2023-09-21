@@ -157,7 +157,79 @@ void modification(){
 }
 
 
+void supprimer(){
+    int a;
+ printf("entrer id de la tache a supprimer: ");
+ scanf("%d", &a);
+ for(i=0;i<n;i++){
+    if(tab[i].id==a){
+        for(int j=i;j<n-1;j++){
+            tab[j]=tab[j+1];
+            n--;
+            i--;
+        }
+    }
+ }
 
+
+}
+
+
+void chercherId(){
+
+     int a;
+     printf("entrer id de la tache  : ");
+     scanf("%d", &a);
+     for(i=0;i<n;i++){
+        if(tab[i].id==a){
+             printf(" tache %d : \n", tab[i].id);
+             printf("titre: %s \n", tab[i].titre);
+             printf(" description : %s \n", tab[i].description);
+             printf(" deadline : %d/%d/%d \n", tab[i].deadline.jour, tab[i].deadline.mois, tab[i].deadline.anne);
+             printf(" status %d \n\n", tab[i].status);
+
+        }
+     }
+
+}
+
+void chercherTitre(){
+    char temp[10];
+    printf("entrer le titre de la tache : ");
+    scanf("%s", temp);
+    for(i=0;i<n;i++){
+        int result =strcmp(tab[i].titre,temp);
+        if(result==0){
+             printf(" tache %d : \n", tab[i].id);
+             printf("titre: %s \n", tab[i].titre);
+             printf(" description : %s \n", tab[i].description);
+             printf(" deadline : %d/%d/%d \n", tab[i].deadline.jour, tab[i].deadline.mois, tab[i].deadline.anne);
+             printf(" status %d \n\n", tab[i].status);
+
+        }
+    }
+
+
+
+}
+
+void rechercher(){
+    int choix4;
+    int a;
+     printf("<1> Rechercher une tache par son Identifiant.\n");
+     printf("<2> Rechercher une tache par son Titre.\n");
+     scanf("%d", &choix4);
+     switch(choix4){
+ case 1:
+     chercherId();
+    break;
+ case 2:
+     chercherTitre();
+    break;
+
+     }
+
+}
 
 
 
@@ -196,6 +268,11 @@ case 3:
 case 4:
     modification();
     break;
+case 5:
+    supprimer();
+    break;
+case 6:
+    rechercher();
 default:
     printf("ce choix n'existe pas entrer un nombre entre 1 et 7");
     break;
