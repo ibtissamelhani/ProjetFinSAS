@@ -27,67 +27,52 @@ Tache tab[100];
 int n=0, i;
 int contId =0;
 
-/*void ajouterTache(){
-
-  printf("ajouter une nouvelle tache \n");
-  printf("titre : ");
-  scanf("%s", tab[i].titre);
-  printf("description : ");
-  scanf(" %[^\n]", tab[i].description);
-  printf("deadline :\n ");
-  printf("jour :");
-  scanf("%d", &tab[i].deadline.anne);
-  printf("mois :");
-  scanf("%d", &tab[i].deadline.mois);
-  printf("annee :");
-  scanf("%d", &tab[i].deadline.jour);
-  printf("status :\n <1> a realiser \n <2> encore \n <3> finalisee \n ");
-  scanf("%d", &tab[i].status);
-    contId++;
-    tab[i].id=contId;
-    n++;
-
-    }*/
-
-
- // if(t.status<1 || t.status>3) printf("<1> a realiser \n <2> encore \n <3> finalisee ");
-
 
 void ajouter(){
     int z;
    printf("enter le nombre des taches a ajouter : ");
    scanf("%d", &z);
      for(i=0; i<z; i++){
-  printf("ajouter une nouvelle tache \n");
-  printf("titre : ");
-  scanf("%s", tab[i].titre);
-  printf("description : ");
-  scanf(" %[^\n]", tab[i].description);
-  printf("deadline :\n ");
-  printf("jour :");
-  scanf("%d", &tab[i].deadline.anne);
-  printf("mois :");
-  scanf("%d", &tab[i].deadline.mois);
-  printf("annee :");
-  scanf("%d", &tab[i].deadline.jour);
-  printf("status :\n <1> a realiser \n <2> encore \n <3> finalisee \n ");
-  scanf("%d", &tab[i].status);
-    contId++;
-    tab[i].id=contId;
-    n++;
+        printf("\n\n");
+        printf("ajouter une tache \n");
+        printf("titre : ");
+        scanf("%s", tab[i].titre);
+        printf("description : ");
+        scanf(" %[^\n]", tab[i].description);
+        printf("deadline :\n ");
+        printf("jour :");
+        scanf("%d", &tab[i].deadline.jour);
+        printf("mois :");
+        scanf("%d", &tab[i].deadline.mois);
+        printf("annee :");
+        scanf("%d", &tab[i].deadline.anne);
+        printf("status :\n <1> a realiser \n <2> en cours \n <3> finalisee \n ");
+        scanf("%d", &tab[i].status);
+        contId++;
+        tab[i].id=contId;
+        n++;
    }
    }
 
 
 void afficher(){
- for(i=0;i<n; i++){
-    printf(" tache %d : \n", tab[i].id);
-    printf("titre: %s \n", tab[i].titre);
-    printf(" description : %s \n", tab[i].description);
-    printf(" deadline : %d/%d/%d \n", tab[i].deadline.anne, tab[i].deadline.mois, tab[i].deadline.jour);
-    printf(" status %d \n\n", tab[i].status);
+    for(i=0;i<n; i++){
 
-}}
+        printf("\n\n");
+        printf(" tache %d : \n\n", tab[i].id);
+        printf("titre: %s \n", tab[i].titre);
+        printf(" description : %s \n", tab[i].description);
+        printf(" deadline : %d/%d/%d \n", tab[i].deadline.anne, tab[i].deadline.mois, tab[i].deadline.jour);
+        printf("statut : ");
+        if(tab[i].status ==1) printf("a realiser\n\n");
+        if(tab[i].status ==2) printf("en cours de realisation\n\n");
+        if(tab[i].status ==3) printf("finalisee\n\n");
+
+    }
+}
+
+
+
 
 void triOrdreAlpha(){
   printf("la liste des taches par ordre alphabetique : \n");
@@ -125,64 +110,91 @@ void triDeadline(){
     afficher();
 }
 
+
 void triJour(){
-    int jourAc, moisAc, anneAc;
-    time_t dateActuel;
-    struct tm* local = localtime(&dateActuel);
-    time(&dateActuel);
-    jourAc=local->tm_mday;
-    moisAc=local->tm_mon +1;
-    anneAc=local->tm_year + 1900;
-    for(i=0; i<n;i++){
-        int jousRestants=(tab[i].deadline.anne - anneAc)*365 +(tab[i].deadline.mois - moisAc)*30 +(tab[i].deadline.jour);
-        if(jousRestants<4){
-            printf("les  les taches dont le deadline est dans 3 jours ou moins ");
-            printf(" tache %d : \n", tab[i].id);
-            printf("titre: %s \n", tab[i].titre);
-            printf(" description : %s \n", tab[i].description);
-            printf(" deadline : %d/%d/%d \n", tab[i].deadline.anne, tab[i].deadline.mois, tab[i].deadline.jour);
-            printf(" status %d \n\n", tab[i].status);
+     int jourAc, moisAc, anneAc;
+     time_t currentTime=time(NULL) ;
+     struct tm tm = *localtime(&currentTime);
+
+     anneAc = tm.tm_year + 1900;
+     moisAc =tm.tm_mon +1;
+     jourAc = tm.tm_mday;
+     int b= anneAc*365;
+            b=b+moisAc*30;
+            b=b+jourAc;
+        for( int k=0; k<n ;k++){
+            int a=(tab[k].deadline.anne)*365;
+                a=a+(tab[k].deadline.mois)*30;
+                a=a+(tab[k].deadline.jour);
+                int result=(a-b);
+            if(result<=3 && result>=0){
+               printf("les taches dont le deadline est dans 3 jours ou moins :\n\n");
+               afficher();
         }
-    }
+     }
+
+  /*  int b = anneAc*10000 + moisAc*100+ jourAc;
+    printf("%d",b);
+
+    for( int k=0; k<n ;k++){
+        int a=(tab[k].deadline.anne)*10000;
+            a=a+(tab[k].deadline.mois)*100;
+            a=a+(tab[k].deadline.jour);
+        int joursRestants= a-b;
+        printf("%d",joursRestants);
+        if(joursRestants <=3 && joursRestants>=0){
+            printf("les  les taches dont le deadline est dans 3 jours ou moins ");
+            printf(" tache %d : \n", tab[k].id);
+            printf("titre: %s \n", tab[k].titre);
+            printf(" description : %s \n", tab[k].description);
+            printf(" deadline : %d/%d/%d \n", tab[k].deadline.anne, tab[k].deadline.mois, tab[k].deadline.jour);
+            printf(" status %d \n\n", tab[k].status);
+        }else printf("error");
+    }*/
 }
 
 
 void affichage(){
-    int choix2;
-    printf("<1> Trier les taches par ordre alphabetique.\n");
-    printf("<2> Trier les taches par deadline.\n");
-    printf("<3> Afficher les tâches dont le deadline est dans 3 jours ou moins.\n");
-    scanf("%d", &choix2);
-    switch(choix2){
-case 1:
-    triOrdreAlpha();
-    break;
-case 2:
-    triDeadline();
-    break;
-case 3:
-    triJour();
-    break;
-default:
-    printf("entrer un nombre entre 1 ET 3");
-    break;
+        int choix2;
+        afficher();
+        printf("\n\n");
+        printf("<1> Trier les taches par ordre alphabetique.\n");
+        printf("<2> Trier les taches par deadline.\n");
+        printf("<3> Afficher les tâches dont le deadline est dans 3 jours ou moins.\n");
+        scanf("%d", &choix2);
+        switch(choix2){
+            case 1:
+                triOrdreAlpha();
+                break;
+            case 2:
+                triDeadline();
+                break;
+            case 3:
+                triJour();
+                break;
+            default:
+                printf("entrer un nombre entre 1 ET 3");
+                break;
     }
-
 }
 
 void modification(){
     int choix3;
     int a;
-    printf("entrer id de tache a modifier  ");
+    printf("\n\n");
+    printf("entrer id de tache a modifier:  ");
     scanf("%d", &a);
     for(i=0;i<n; i++){
         if(tab[i].id==a){
-            printf("<1> Modifier la description d'une tache.\n");
-            printf("<2> Modifier le statut d’une tache.\n");
-            printf("<3> Modifier le deadline d’une tache.\n");
+            printf("<1> Modifier la description de la tache.\n");
+            printf("<2> Modifier le statut de la tache.\n");
+            printf("<3> Modifier le deadline de la tache.\n");
+            printf("\n\n");
             scanf("%d", &choix3);
                 switch(choix3){
                     case 1:
+                        printf("encienne description de la tache : %s", tab[i].description);
+                        printf("\n\n");
                         printf("entrer la nouvelle description : ");
                         scanf(" %[^\n]", tab[i].description);
                         printf("la tache est bien modifier");
@@ -193,21 +205,22 @@ void modification(){
                         printf("la tache est bien modifier");
                         break;
                     case 3:
-                        printf("entrer le nouveau deadline : \n");
+                        printf("entrer le nouveau deadline : \n\n");
                         printf("jour :");
                         scanf("%d", &tab[i].deadline.anne);
                         printf("mois :");
                         scanf("%d", &tab[i].deadline.mois);
                         printf("annee :");
                         scanf("%d", &tab[i].deadline.jour);
+                        printf("\n\n");
                         printf("la tache est bien modifier");
                         break;
                     default:
                         printf("entrer un nombre entre 1 ET 3");
                         break;
                     }
-                       }else{
-                               printf("la tache n'existe pas");}
+
+                    }
     }
 
 }
@@ -215,11 +228,12 @@ void modification(){
 
 
 void supprimer(){
-    int a;
- printf("entrer id de la tache a supprimer: ");
- scanf("%d", &a);
- for(i=0;i<n;i++){
-    if(tab[i].id==a){
+        int a;
+        printf("\n\n");
+        printf("entrer id de la tache a supprimer: ");
+        scanf("%d", &a);
+        for(i=0;i<n;i++){
+        if(tab[i].id==a){
         for(int j=i;j<n-1;j++){
             tab[j]=tab[j+1];
             n--;
@@ -227,13 +241,14 @@ void supprimer(){
         }
     }
  }
- printf("la tache est supprimee");
+    printf("la tache est supprimee \n\n");
 }
 
 
 void chercherId(){
 
      int a;
+     printf("\n\n");
      printf("entrer id de la tache  : ");
      scanf("%d", &a);
      for(i=0;i<n;i++){
@@ -276,16 +291,18 @@ void rechercher(){
      printf("<2> Rechercher une tache par son Titre.\n");
      scanf("%d", &choix4);
      switch(choix4){
- case 1:
-     chercherId();
-    break;
- case 2:
-     chercherTitre();
-    break;
-
-
-     }
+        case 1:
+            chercherId();
+            break;
+        case 2:
+            chercherTitre();
+            break;
+            }
 }
+
+
+
+
 void nbrTacheComp(){
     int count1=0;
     int count2=0;
@@ -297,9 +314,56 @@ void nbrTacheComp(){
     printf(" incomplètes : %d", count1);
 
 }
+
+
+void jourREST(){
+    int jourAc, moisAc, anneAc;
+    time_t currentTime=time(NULL) ;
+    struct tm tm = *localtime(&currentTime);
+
+     anneAc = tm.tm_year + 1900;
+     moisAc =tm.tm_mon +1;
+     jourAc = tm.tm_mday;
+     int b= anneAc*365;
+            b=b+moisAc*30;
+            b=b+jourAc;
+     for( int k=0; k<n ;k++){
+            int a=(tab[k].deadline.anne)*365;
+                a=a+(tab[k].deadline.mois)*30;
+                a=a+(tab[k].deadline.jour);
+                int result=(a-b);
+                printf("le delai de la tache : %d est : %d \n\n",tab[i].id,result);
+                }
+}
+
+
 void statistique(){
-    printf("le nombre total des tache: %d \n\n", n);
+    int choix4;
+     printf("<1> afficher nombre total des tache.\n");
+     printf("<2> Afficher le nombre de taches complètes et incomplètes.\n");
+     printf("<3> Afficher le nombre de jours restants jusqu'au délai de chaque tache.\n");
+     printf("<4> retourner au menu principal.\n");
+     scanf("%d", &choix4);
+     switch(choix4){
+
+ case 1:
+    printf("le nombre total des taches %d", n);
+    break;
+ case 2:
     nbrTacheComp();
+    break;
+ case 3:
+    jourREST();
+    break;
+ case 4:
+    main();
+     break;
+ default:
+    printf("entrer un nombre entre 1 et 4");
+    break;
+     }
+
+
 }
 
 
@@ -310,11 +374,11 @@ int main()
 {
 
     int choix;
-
-    printf("=============================================================\n\n");
+printf("=============================================================\n\n");
 printf("\t\t TODO list ");
 printf("\n\n============================================================ \n\n");
 while(1){
+printf("\n\n");
 printf("\t[1] Ajouter des taches.\n");
 printf("\t[2] Afficher la liste de toutes les taches .\n");
 printf("\t[3] Modifier une tache.\n");
@@ -322,8 +386,9 @@ printf("\t[4] Supprimer une tache.\n");
 printf("\t[5] Rechercher une tache.\n");
 printf("\t[6] Statistiques\n");
 printf("\t[7] Quitter.\n");
+printf("\n\n");
 printf("==============================================================\n");
-printf("tapez votre choix [1-6] : ");
+printf("tapez votre choix [1-7] : ");
 scanf("%d", &choix);
 if(choix==7) break;
 
@@ -345,6 +410,7 @@ case 5:
     break;
 case 6:
     statistique();
+    break;
 default:
     printf("ce choix n'existe pas entrer un nombre entre 1 et 7");
     break;
